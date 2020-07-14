@@ -17,9 +17,9 @@
 /**
  * English language strings.
  *
- * @package   filter_syntaxhighlighter
- * @author    Mark Sharp <m.sharp@chi.ac.uk>
- * @copyright 2017 University of Chichester {@link www.chi.ac.uk}
+ * @package   filter_scratchblocks
+ * @author    Sokunthearith (T) Makara 
+ * @copyright 2020 eduton.org
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
