@@ -25,8 +25,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2020061601;
+$plugin->version = 2020062101;
 $plugin->requires = 2017111302;
 $plugin->component = 'filter_scratchblocks';
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = '0.0.1';
+$plugin->release = '0.0.2';

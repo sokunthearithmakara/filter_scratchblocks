@@ -37,6 +37,34 @@ class filter_scratchblocks extends moodle_text_filter {
      */
     public function filter($text, array $options = array()) {
         global $CFG;
+        $langs = '['.get_config("filter_scratchblocks", "languages").']'; //get array of languages from admin
+        if (!get_config("filter_scratchblocks", "languages")) {
+            $langs = '["en"]'; //if empty, use english
+        }
+
+        $mainjs = get_config('filter_scratchblocks', 'mainjs'); //get scratchblock js from admin
+        if(!$mainjs) { //if not provided, use default js
+                $mainjs = $CFG->wwwroot . '/filter/scratchblocks/js/scratchblocks-v3.4-min.js';
+            }
+
+        $scriptblock = '<script> 
+        scratchblocks.renderMatching("scratchblocks", {
+        style: "scratch3",
+        inline: false,
+        languages: '.$langs.',
+            });
+        </script>'; 
+        $scriptinline = '<script>
+        scratchblocks.renderMatching("scratchblocksinline", {
+        style: "scratch3",
+        inline: true,
+        languages: '.$langs.',
+            });
+        </script>'; //initialize scratchblock renderers for both block and inline
+         
+        
+        $tranjs = get_config('filter_scratchblocks', 'translation'); //get translation js link from admin
+
         if (!is_string($text) || empty($text)) {
             return $text;
         }
@@ -50,7 +78,13 @@ class filter_scratchblocks extends moodle_text_filter {
                     '</scratchblocks>';
                 $text = str_replace($matches[0][$idx], $newcode, $text);
             }
-            
+            $text = $text.$scriptblock;   
+        echo '<script src="'.$mainjs.'"></script>'; //add js link to the page
+        if($tranjs && $langs !== '["en"]' && $langs !== '[\'en\']') { //if provided, add js link to the page; otherwise, no translation; therefore, english only.
+        echo '<script src="'.$tranjs.'"></script>';
+        } 
+        } else {
+            $noblock = true;
         }
 
         $re = "~{scratchblocksinline}(.*?){/scratchblocksinline}~isu"; //second find inline scratchblocks
@@ -62,36 +96,13 @@ class filter_scratchblocks extends moodle_text_filter {
                     '</scratchblocksinline>';
                 $text = str_replace($matches[0][$idx], $newcode, $text);
             }
-            
-        }
-        $langs = '['.get_config("filter_scratchblocks", "languages").']'; //get array of languages from admin
-        if (!$langs) {
-            $langs = '["en"]'; //if empty, use english
-        }
-        $script = '<script> 
-        scratchblocks.renderMatching("scratchblocks", {
-        style: "scratch3",
-        inline: false,
-        languages: '.$langs.',
-    });
-
-        scratchblocks.renderMatching("scratchblocksinline", {
-        style: "scratch3",
-        inline: true,
-        languages: '.$langs.',
-    });
-        </script>'; //initialize scratchblock renderers for both block and inline
-        $text = $text.$script; //append the init script after the filtered text
-
-        $mainjs = get_config('filter_scratchblocks', 'mainjs'); //get scratchblock js from admin
-        if(!$mainjs) { //if not provided, use default js
-                $mainjs = $CFG->wwwroot . '/filter/scratchblocks/js/scratchblocks-v3.4-min.js';
+            $text = $text.$scriptinline;  
+            if ($noblock == true) { //check if js links already added or not to avoid adding twice
+                echo '<script src="'.$mainjs.'"></script>'; //add js link to the page
+                if($tranjs && $langs !== '["en"]' && $langs !== '[\'en\']') { //if provided, add js link to the page; otherwise, no translation; therefore, english only.
+                echo '<script src="'.$tranjs.'"></script>';
+                }
             }
-        echo '<script src="'.$mainjs.'"></script>'; //add js link to the page
-
-        $tranjs = get_config('filter_scratchblocks', 'translation'); //get translation js link from admin
-        if($tranjs) { //if provided, add js link to the page; otherwise, no translation; therefore, english only.
-        echo '<script src="'.$tranjs.'"></script>';
         }
 
         return $text;
