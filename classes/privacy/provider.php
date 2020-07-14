@@ -15,11 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Privacy Subsystem implementation for filter_syntaxhighlighter.
- *
- * @package    filter_syntaxhighlighter
- * @copyright  2018 Mark Sharp <m.sharp@chi.ac.uk>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * Privacy Subsystem implementation for filter_scratchblocks
+ * @package   filter_scratchblocks
+ * @author    Sokunthearith (T) Makara 
+ * @copyright 2020 eduton.org
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace filter_scratchblocks\privacy;
@@ -27,9 +27,9 @@ namespace filter_scratchblocks\privacy;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Privacy Subsystem for filter_syntaxhighlighter implementing null_provider.
+ * Privacy Subsystem for filter_scratchblocks implementing null_provider.
  *
- * @copyright  2018 Mark Sharp <m.sharp@chi.ac.uk>
+ * @copyright  2020 Sokunthearith (T) Makara
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class provider implements \core_privacy\local\metadata\null_provider {
